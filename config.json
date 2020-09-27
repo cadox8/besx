@@ -1,0 +1,22 @@
+{
+  "mysql":{
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": ""
+  },
+  "debug": true,
+  "updaterLog": true,
+  "modules": {
+    "money": true,
+    "characters": true,
+    "voice": true,
+    "phone": true,
+    "animations": true,
+    "models": true,
+    "police": true,
+    "ems": true,
+    "mechanic": true,
+    "supermarket": true
+  }
+}
