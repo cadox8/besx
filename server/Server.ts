@@ -1,6 +1,25 @@
+/*
+ * Copyright (c) 2020 - cadox8
+ *
+ * All Rights Reserved
+ *
+ * That means:
+ *
+ * - You shall not use any piece of this software in a commercial product / service
+ * - You shall not resell this software
+ * - You shall not provide any facility to install this particular software in a commercial product / service
+ * - If you redistribute this software, you must link to ORIGINAL repository at https://github.com/cadox8/besx
+ * - This copyright should appear in every part of the project code
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import {Database} from "./db/Database";
-import {REvents} from "./events/REvents";
-import {SEvents} from "./events/SEvents";
 import {GameData} from "./api/GameData";
 import {Init} from "./db/Init";
 import {JobTask} from "./tasks/JobTask";
@@ -8,19 +27,15 @@ import {Updater} from "../commons/utils/Updater";
 
 export class Server {
 
-    private static _instance: Server;
-
-    private _internal_count: number = 0;
-
     private init: Init;
 
     private readonly database: Database;
 
-    private readonly _sEvents: SEvents;
     private readonly gameData: GameData;
 
     constructor() {
         console.log('---------------- BESX ----------------');
+        console.log('Starting BESX...');
         this.init = new Init();
         new Updater().update();
 
@@ -29,27 +44,9 @@ export class Server {
 
         this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
 
-        new REvents();
-        this._sEvents = new SEvents();
-
         new JobTask().run();
         console.log('Started :D');
-    }
-
-    static get instance(): Server {
-        return this._instance;
-    }
-
-    get internal_count(): number {
-        return this._internal_count;
-    }
-
-    set internal_count(value: number) {
-        this._internal_count = value;
-    }
-
-    get sEvents(): SEvents {
-        return this._sEvents;
+        console.log('---------------- BESX ----------------');
     }
 }
 

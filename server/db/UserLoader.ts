@@ -1,14 +1,35 @@
+/*
+ * Copyright (c) 2020 - cadox8
+ *
+ * All Rights Reserved
+ *
+ * That means:
+ *
+ * - You shall not use any piece of this software in a commercial product / service
+ * - You shall not resell this software
+ * - You shall not provide any facility to install this particular software in a commercial product / service
+ * - If you redistribute this software, you must link to ORIGINAL repository at https://github.com/cadox8/besx
+ * - This copyright should appear in every part of the project code
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 import {User} from "../../commons/api/User";
 import {Database} from "./Database";
-import {Server} from "../Server";
 import {GameData} from "../api/GameData";
 
 export class UserLoader {
 
-    public static getUser(internal_id: number, steam: string, discord: string): Promise<User> {
+    public static getUser(internal_id: number, steam: string, discord: string): Promise<{ user: User, exists: boolean }> {
         return new Promise(async user => {
             const exists: boolean = await this.existUser(steam, discord);
-            user(exists ? await this.loadUser(internal_id, steam, discord) : await this.generateUser(internal_id, steam, discord));
+            const result: { user: User, exists: boolean } = { user: exists ? await this.loadUser(internal_id, steam, discord) : await this.generateUser(internal_id, steam, discord), exists: exists }
+            user(result);
         });
     }
 
@@ -26,7 +47,10 @@ export class UserLoader {
             Database.database.query("select * from userdata WHERE steam='" + steam + "' and discord='" + discord + "'", (err, result) => {
                 if (err) user(null);
                 const data: any = JSON.parse(JSON.stringify(result))[0];
-                const tempUser: User = new User(Server.instance.internal_count, data.id);
+                const tempUser: User = new User(internal_id, data.id);
+
+                tempUser.steam = steam;
+                tempUser.discord = discord;
 
                 tempUser.money = data.money;
                 tempUser.bank = data.bank;
