@@ -19,17 +19,11 @@
  * THE SOFTWARE.
  */
 
-export class SEvents {
+import {PlayerConnectingEvent} from "./reciever/PlayerConnectingEvent";
 
-    public heartBeat(): void {
-        emitNet('besx:heartBeat', 'HeartBeat');
-    }
+export class EventHandler {
 
-    public getUserId(): void {
-        emitNet('besx:getUserId');
-    }
-
-    public requestUserInfo(): void {
-
+    public handle(): void {
+        onNet('playerConnecting', (name: string, setKickReason: any, deferrals: any) => new PlayerConnectingEvent(name, setKickReason, deferrals));
     }
 }

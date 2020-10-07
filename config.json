@@ -7,6 +7,9 @@
   },
   "debug": true,
   "updaterLog": true,
+  "moderation": {
+    "kickBroadcast": true
+  },
   "modules": {
     "money": true,
     "characters": true,

@@ -19,17 +19,23 @@
  * THE SOFTWARE.
  */
 
-export class SEvents {
+import {User} from "../../../commons/api/User";
 
-    public heartBeat(): void {
-        emitNet('besx:heartBeat', 'HeartBeat');
+export class CreateUserEvent {
+
+    private readonly id: number;
+    private readonly user: User;
+    private readonly needSetup: boolean;
+
+    constructor(id: number, user: User, needSetup: boolean) {
+        this.id = id;
+        this.user = user;
+        this.needSetup = needSetup;
+
+        this.event();
     }
 
-    public getUserId(): void {
-        emitNet('besx:getUserId');
-    }
-
-    public requestUserInfo(): void {
-
+    private event(): void {
+        TriggerClientEvent('besx:generatePlayer', this.id, this.user, this.needSetup);
     }
 }

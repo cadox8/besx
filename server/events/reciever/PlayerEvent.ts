@@ -19,17 +19,26 @@
  * THE SOFTWARE.
  */
 
-export class SEvents {
+import {Server} from "../../Server";
+import * as Cfx from 'fivem-js';
+import {User} from "../../../commons/api/User";
+import {GameData} from "../../api/GameData";
 
-    public heartBeat(): void {
-        emitNet('besx:heartBeat', 'HeartBeat');
+export abstract class PlayerEvent {
+
+    protected readonly internal_id: number;
+    protected readonly name: string;
+
+    protected readonly emitter: User;
+
+    protected constructor(internal_id: number, name: string) {
+        this.internal_id = internal_id;
+        this.name = name;
+
+        this.emitter = GameData.findUser(this.internal_id);
+
+        this.event();
     }
 
-    public getUserId(): void {
-        emitNet('besx:getUserId');
-    }
-
-    public requestUserInfo(): void {
-
-    }
+    protected abstract event(): void;
 }

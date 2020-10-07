@@ -19,17 +19,7 @@
  * THE SOFTWARE.
  */
 
-export class SEvents {
+export class Prefix {
 
-    public heartBeat(): void {
-        emitNet('besx:heartBeat', 'HeartBeat');
-    }
-
-    public getUserId(): void {
-        emitNet('besx:getUserId');
-    }
-
-    public requestUserInfo(): void {
-
-    }
+    public static BESX_DANGER = '^4BESX ^r>> ';
 }
