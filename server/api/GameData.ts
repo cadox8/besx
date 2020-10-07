@@ -30,4 +30,8 @@ export class GameData {
     static addUser(user: User): void {
         this.prototype.users.push(user);
     }
+
+    static findUser(internal_id: number): User {
+        return this.prototype.users.find(u => u.internal_id === internal_id);
+    }
 }
