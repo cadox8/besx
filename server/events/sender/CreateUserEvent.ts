@@ -20,22 +20,20 @@
  */
 
 import {User} from "../../../commons/api/User";
+import {BaseEvent} from "./BaseEvent";
 
-export class CreateUserEvent {
+export class CreateUserEvent extends BaseEvent {
 
-    private readonly id: number;
     private readonly user: User;
     private readonly needSetup: boolean;
 
-    constructor(id: number, user: User, needSetup: boolean) {
-        this.id = id;
+    constructor(target: number, user: User, needSetup: boolean) {
+        super(target)
         this.user = user;
         this.needSetup = needSetup;
-
-        this.event();
     }
 
-    private event(): void {
-        TriggerClientEvent('besx:generatePlayer', this.id, this.user, this.needSetup);
+    protected event(): void {
+        TriggerClientEvent('besx:generatePlayer', this.target, this.user, this.needSetup);
     }
 }

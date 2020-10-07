@@ -21,8 +21,11 @@
 
 import {Job} from "../../commons/api/Job";
 import {User} from "../../commons/api/User";
+import {Game} from "fivem-js";
 
 export class GameData {
+
+    public static instance: GameData;
 
     private internal_id_counter: number = 0;
 
@@ -30,6 +33,7 @@ export class GameData {
     private _jobs: Job[];
 
     constructor() {
+        GameData.instance = this;
         this._users = [];
         this._jobs = [];
     }
@@ -47,19 +51,27 @@ export class GameData {
     }
 
     static nextId(): number {
-        this.prototype.internal_id_counter++;
-        return this.prototype.internal_id_counter;
+        GameData.instance.internal_id_counter++;
+        return GameData.instance.internal_id_counter;
     }
 
     static getJob(id: number): Job {
-        return this.prototype.jobs.find(j => j.id === id);
+        return GameData.instance.jobs.find(j => j.id === id);
     }
 
     static addUser(user: User): void {
-        this.prototype.users.push(user);
+        GameData.instance.users.push(user);
     }
 
     static findUser(internal_id: number): User {
-        return this.prototype.users.find(u => u.internal_id === internal_id);
+        return GameData.instance.users.find(u => u.internal_id === internal_id);
+    }
+
+    private static index(user: User): number {
+        return GameData.instance.users.indexOf(user);
+    }
+
+    static updateUser(user: User): void {
+        GameData.instance.users[this.index(user)] = user;
     }
 }
