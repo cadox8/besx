@@ -64,7 +64,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
                     const user: { user: User, exists: boolean } = await UserLoader.getUser(GameData.nextId(), data.steam, data.discord);
                     user.user.steamName = data.steamName;
                     GameData.addUser(user.user);
-                    new CreateUserEvent(this.internal_id, user.user, user.exists);
+                    new CreateUserEvent(this.source, user.user, user.exists);
                 }
             }, 0);
         }, 0);

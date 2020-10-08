@@ -19,30 +19,21 @@
  * THE SOFTWARE.
  */
 
-import {PlayerEvent} from "./PlayerEvent";
-import {User} from "../../../commons/api/user/User";
-import {GameData} from "../../api/GameData";
-import {ChatMessageEvent} from "../sender/ChatMessageEvent";
+import {BaseCommand, CommandType} from "../BaseCommand";
+import {ChatMessageEvent} from "../../events/sender/ChatMessageEvent";
+import {Prefix} from "../../../commons/utils/Prefix";
 
-export class PlayerKickEvent extends PlayerEvent {
+export class IdCMD extends BaseCommand {
 
-    private readonly reason: string;
-    private readonly target: number;
-
-    constructor(id: number, name: string, target: number, reason: string) {
-        super(id, name);
-
-        this.target = target;
-        this.reason = reason;
+    constructor() {
+        super('id');
     }
 
-    protected event(): void {
-        const user: User = GameData.findUser(this.target);
+    public register(): void {
+        RegisterCommand(this.command, async (source: number, args: string[]) => {
+            if (source <= 0 || this.type === CommandType.RCON) return;
 
-        if (this.emitter.rank >= user.rank) {
-            new ChatMessageEvent(this.internal_id, [ 254, 49, 49 ], 'You can not kick this player because you are lower or equal rank');
-            return;
-        }
-
+            new ChatMessageEvent(-1, [ 255, 255, 255 ], (!args ? 'Nil' : args.join(' ')), Prefix.ID + this.getUser(source).steamName); // Change Steam ID to Name
+        }, false);
     }
 }

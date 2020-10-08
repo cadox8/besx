@@ -19,21 +19,18 @@
  * THE SOFTWARE.
  */
 
-import {BaseCommand, CommandType} from "./BaseCommand";
-import {ChatMessageEvent} from "../events/sender/ChatMessageEvent";
-import {Prefix} from "../../commons/utils/Prefix";
+import {BaseEvent} from "./BaseEvent";
 
-export class HelpCMD extends BaseCommand {
+export class PlayerKickEvent extends BaseEvent {
 
-    constructor() {
-        super('help');
+    private readonly reason: string;
+
+    constructor(target: number, reason: string = 'You have been kicked from the server without any reason') {
+        super(target);
+        this.reason = reason;
     }
 
-    public register(): void {
-        RegisterCommand(this.command, async (source: number, args: string[]) => {
-            if (source <= 0 || this.type === CommandType.RCON) return;
-
-            new ChatMessageEvent(-1, [ 255, 255, 255 ], (!args ? 'Nil' : args.join(' ')), Prefix.HELP + this.getUser(source).steamName); // Change Steam ID to Name
-        }, false);
+    protected event(): void {
+        TriggerClientEvent('besx:cya', this.target, this.reason);
     }
 }

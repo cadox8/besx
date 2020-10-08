@@ -19,8 +19,8 @@
 * Enjoy the server
 
 ### Developing
-You can develop extra scripts using this as a base. Check [the API](https://cadox8.es/besx) to know how to use the API.
-You can use this script with [Lua](https://cadox8.es/besx/lua) or [NPM](https://www.npmjs.com/package/besx).
+You can develop extra scripts using this as a base. Check [the API](https://besx.js.org) to know how to use the API.
+You can use this script with [Lua](https://besx.js.org/#lua) or [NPM](https://www.npmjs.com/package/besx).
 
 ### License
 This project is released under [this License](LICENSE.md). Please, read it before using/editing this script.

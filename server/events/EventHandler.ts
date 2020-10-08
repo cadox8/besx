@@ -20,10 +20,12 @@
  */
 
 import {PlayerConnectingEvent} from "./reciever/PlayerConnectingEvent";
+import {PlayerDroppedEvent} from "./reciever/PlayerDroppedEvent";
 
 export class EventHandler {
 
     public handle(): void {
-        onNet('playerConnecting', (name: string, setKickReason: any, deferrals: any) => new PlayerConnectingEvent(name, setKickReason, deferrals));
+        on('playerConnecting', (name: string, setKickReason: any, deferrals: any) => new PlayerConnectingEvent(name, setKickReason, deferrals));
+        on('playerDropper', (source: number, reason: string) => new PlayerDroppedEvent(source, reason));
     }
 }
