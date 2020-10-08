@@ -22,7 +22,7 @@
 import {PlayerEvent} from "./PlayerEvent";
 import {Log} from "../../../commons/utils/Log";
 import {Server} from "../../Server";
-import {User} from "../../../commons/api/User";
+import {User} from "../../../commons/api/user/User";
 import {UserLoader} from "../../db/UserLoader";
 import {GameData} from "../../api/GameData";
 import {CreateUserEvent} from "../sender/CreateUserEvent";
@@ -45,11 +45,12 @@ export class PlayerConnectingEvent extends PlayerEvent {
         setTimeout(async () => {
             this.deferrals.update(`Hello ${this.name}. Your steam ID is being checked.`);
             Log.debug(`Hello ${this.name}. Your steam ID is being checked.`);
-            let data: { steam?: string, discord?: string } = {};
+            let data: { steam?: string, discord?: string, steamName: string } = { steamName: '' };
 
             for (let i = 0; i < GetNumPlayerIdentifiers(player); i++) {
                 const identifier = GetPlayerIdentifier(player, i);
 
+                data.steamName = GetPlayerIdentifier(player, 1);
                 if (identifier.includes('steam:')) data.steam = identifier;
                 if (identifier.includes('discord:')) data.discord = identifier;
             }
@@ -61,6 +62,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
                 } else {
                     this.deferrals.done();
                     const user: { user: User, exists: boolean } = await UserLoader.getUser(GameData.nextId(), data.steam, data.discord);
+                    user.user.steamName = data.steamName;
                     GameData.addUser(user.user);
                     new CreateUserEvent(this.internal_id, user.user, user.exists);
                 }

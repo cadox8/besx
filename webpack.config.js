@@ -26,12 +26,13 @@ const entry = require('webpack-glob-entry');
 const buildPath = path.resolve(__dirname, 'dist');
 
 const commons = {
-    entry: {
+    entry: entry('./commons/**/*.ts'),
+/*    entry: {
         user: './commons/api/User.ts',
         job: './commons/api/Job.ts',
         log: './commons/utils/Log.ts',
         updater: './commons/utils/Updater.ts',
-    },
+    },*/
     module: {
         rules: [
             {
@@ -92,11 +93,12 @@ const server = {
 };
 
 const client = {
-    entry: {
+    entry: entry('./client/**/*.ts'),
+/*    entry: {
         client: './client/Client.ts',
         rEvents: './client/events/REvents.ts',
         sEvents: './client/events/SEvents.ts',
-    },
+    },*/
     module: {
         rules: [
             {

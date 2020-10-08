@@ -1,5 +1,5 @@
 import {BaseEvent} from "./BaseEvent";
-import {User} from "../../../commons/api/User";
+import {User} from "../../../commons/api/user/User";
 import {GameData} from "../../api/GameData";
 
 export class PayDayEvent extends BaseEvent {

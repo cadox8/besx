@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-import {User} from "../../../commons/api/User";
+import {User} from "../../../commons/api/user/User";
 import {BaseEvent} from "./BaseEvent";
 
 export class CreateUserEvent extends BaseEvent {

@@ -29,19 +29,18 @@ export class ChatMessageEvent extends BaseEvent {
     private readonly prefix: string;
     private readonly msg: string;
 
-    constructor(target: number, color: number[], msg: string, prefix: string = Prefix.BESX_DANGER) {
+    constructor(target: number, color: number[], msg: string, prefix: string = Prefix.BESX) {
         super(target)
         this.color = color;
         this.prefix = prefix;
         this.msg = msg;
-
     }
 
     protected event(): void {
-        if (this.target === -1) {
-            GameData.prototype.users.forEach(u => TriggerClientEvent('besx:showMessageOnChat', u.internal_id, this.color, this.prefix, this.msg));
-        } else {
-            TriggerClientEvent('besx:showMessageOnChat', this.target, this.color, this.prefix, this.msg);
-        }
+        TriggerClientEvent('chat:addMessage', this.target, {
+            color: this.color,
+            multiline: true,
+            args: [this.prefix, this.msg]
+        });
     }
 }

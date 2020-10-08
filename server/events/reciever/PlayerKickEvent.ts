@@ -20,7 +20,7 @@
  */
 
 import {PlayerEvent} from "./PlayerEvent";
-import {User} from "../../../commons/api/User";
+import {User} from "../../../commons/api/user/User";
 import {GameData} from "../../api/GameData";
 import {ChatMessageEvent} from "../sender/ChatMessageEvent";
 

@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-import {User} from "../../commons/api/User";
+import {User} from "../../commons/api/user/User";
 import {Database} from "./Database";
 import {GameData} from "../api/GameData";
 

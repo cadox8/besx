@@ -19,36 +19,12 @@
  * THE SOFTWARE.
  */
 
-import {Database} from "./db/Database";
-import {GameData} from "./api/GameData";
-import {Init} from "./utils/Init";
-import {JobTask} from "./tasks/JobTask";
-import {Updater} from "../commons/utils/Updater";
+import {Vector3} from "fivem-js";
+import {GameData} from "../api/GameData";
 
-export class Server {
+export class Utils {
 
-    private init: Init;
+    public static getSteamData(steam_id: string): any {
 
-    private readonly database: Database;
-
-    private readonly gameData: GameData;
-
-    constructor() {
-        console.log('---------------- BESX ----------------');
-        console.log('Starting BESX...');
-        this.init = new Init();
-        new Updater().update();
-
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
-        this.gameData = new GameData();
-
-        this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
-        this.init.loadCommands();
-
-        new JobTask().run();
-        console.log('Started :D');
-        console.log('---------------- BESX ----------------');
     }
 }
-
-const server: Server = new Server();

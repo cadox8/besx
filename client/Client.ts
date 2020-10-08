@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-import {User} from "../commons/api/User";
+import {User} from "../commons/api/user/User";
 import {REvents} from "./events/REvents";
 import {SEvents} from "./events/SEvents";
 

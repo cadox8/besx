@@ -20,7 +20,7 @@
  */
 
 import {Client} from "../Client";
-import {User} from "../../commons/api/User";
+import {User} from "../../commons/api/user/User";
 
 export class REvents {
 

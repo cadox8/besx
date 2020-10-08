@@ -20,7 +20,7 @@
  */
 
 import {Job} from "../../commons/api/Job";
-import {User} from "../../commons/api/User";
+import {User} from "../../commons/api/user/User";
 import {Game} from "fivem-js";
 
 export class GameData {

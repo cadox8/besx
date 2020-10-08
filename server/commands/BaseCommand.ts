@@ -19,36 +19,40 @@
  * THE SOFTWARE.
  */
 
-import {Database} from "./db/Database";
-import {GameData} from "./api/GameData";
-import {Init} from "./utils/Init";
-import {JobTask} from "./tasks/JobTask";
-import {Updater} from "../commons/utils/Updater";
+import {User} from "../../commons/api/user/User";
+import {GameData} from "../api/GameData";
 
-export class Server {
+export abstract class BaseCommand {
 
-    private init: Init;
+    private readonly _command: string;
+    private readonly _rank: number;
+    private readonly _type: CommandType;
 
-    private readonly database: Database;
+    protected constructor(command: string, rank: number = 0, type: CommandType = CommandType.CLIENT) {
+        this._command = command;
+        this._rank = rank;
+        this._type = type;
+    }
 
-    private readonly gameData: GameData;
+    public abstract register(): void;
 
-    constructor() {
-        console.log('---------------- BESX ----------------');
-        console.log('Starting BESX...');
-        this.init = new Init();
-        new Updater().update();
+    get command(): string {
+        return this._command;
+    }
 
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
-        this.gameData = new GameData();
+    get rank(): number {
+        return this._rank;
+    }
 
-        this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
-        this.init.loadCommands();
+    get type(): CommandType {
+        return this._type;
+    }
 
-        new JobTask().run();
-        console.log('Started :D');
-        console.log('---------------- BESX ----------------');
+    protected getUser(source: number): User {
+        return GameData.findUser(source);
     }
 }
 
-const server: Server = new Server();
+export enum CommandType {
+    CLIENT, SERVER, BOTH, RCON
+}
