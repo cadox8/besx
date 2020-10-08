@@ -12,9 +12,6 @@
     "url": "https://cadox8.es",
     "email": "cadox8@gmail.com"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "homepage": "https://cadox8.es/besx",
   "bugs": {
     "url": "https://github.com/cadox8/besx/issues"
