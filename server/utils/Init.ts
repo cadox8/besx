@@ -22,10 +22,12 @@
 import {Employer, Job} from "../../commons/api/Job";
 import {Database} from "../db/Database";
 import {Log} from "../../commons/utils/Log";
-import {HelpCMD} from "../commands/HelpCMD";
-import {IdCMD} from "../commands/IdCMD";
-import {DoCMD} from "../commands/DoCMD";
-import {MeCMD} from "../commands/MeCMD";
+import {HelpCMD} from "../commands/normal/HelpCMD";
+import {IdCMD} from "../commands/normal/IdCMD";
+import {DoCMD} from "../commands/normal/DoCMD";
+import {MeCMD} from "../commands/normal/MeCMD";
+import {ReportCMD} from "../commands/normal/ReportCMD";
+import {KickCMD} from "../commands/admin/KickCMD";
 
 export class Init {
 
@@ -34,13 +36,20 @@ export class Init {
     }
 
     public loadCommands(): void {
-        new HelpCMD();
-        new IdCMD();
-        new DoCMD();
-        new MeCMD();
+        Log.debug('Loading commands...');
+        // Normal
+        new HelpCMD().register();
+        new IdCMD().register();
+        new DoCMD().register();
+        new MeCMD().register();
+        new ReportCMD().register();
+
+        // Admin
+        new KickCMD().register();
     }
 
     public async loadJobs(): Promise<Job[]> {
+        Log.debug('Loading jobs...');
         return new Promise(jobs => {
             const tempJobs: Job[] = [];
            Database.database.query("select * from jobs", (err, result) => {

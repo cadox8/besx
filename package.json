@@ -1,6 +1,6 @@
 {
   "name": "besx",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "BESX is a RolePlay Framework for FiveM servers developed in TypeScript.",
   "repository": "git:github.com/cadox8/besx.git",
   "scripts": {

@@ -19,16 +19,18 @@
  * THE SOFTWARE.
  */
 
-import {User} from "../../commons/api/user/User";
+import {Rank, User} from "../../commons/api/user/User";
 import {GameData} from "../api/GameData";
+import {ChatMessageEvent} from "../events/sender/ChatMessageEvent";
+import {Prefix} from "../../commons/utils/Prefix";
 
 export abstract class BaseCommand {
 
     private readonly _command: string;
-    private readonly _rank: number;
+    private readonly _rank: Rank;
     private readonly _type: CommandType;
 
-    protected constructor(command: string, rank: number = 0, type: CommandType = CommandType.CLIENT) {
+    protected constructor(command: string, rank: Rank = Rank.USER, type: CommandType = CommandType.CLIENT) {
         this._command = command;
         this._rank = rank;
         this._type = type;
@@ -50,6 +52,10 @@ export abstract class BaseCommand {
 
     protected getUser(source: number): User {
         return GameData.findUser(source);
+    }
+
+    protected noPermissions(source: number): void {
+        new ChatMessageEvent(source, [ 254, 49, 49 ], 'Sorry, but you do not have permissions to use this command', Prefix.BESX_DANGER);
     }
 }
 

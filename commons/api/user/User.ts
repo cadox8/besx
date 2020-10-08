@@ -51,7 +51,7 @@ export class User {
     public working: boolean = false;
 
     // Administrative
-    public rank: number = 0;
+    public rank: Rank = Rank.USER;
 
     /**
      * Creates an instance of User
@@ -75,4 +75,8 @@ export class User {
         this.bank = this.bank + this.job.rank(this.employer).salary;
         return this.job.rank(this.employer).salary;
     }
+}
+
+export enum Rank {
+    USER, VIP, HELPER, HELPER_PLUS, MODERATOR, ADMINISTRATOR, OWNER, DEVELOPER
 }

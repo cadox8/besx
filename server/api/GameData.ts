@@ -63,12 +63,19 @@ export class GameData {
         GameData.instance.users.push(user);
     }
 
+    static removeUser(id: number): void {
+        GameData.instance.users.splice(this.indexId(id), 1);
+    }
+
     static findUser(internal_id: number): User {
         return GameData.instance.users.find(u => u.internal_id === internal_id);
     }
 
     private static index(user: User): number {
         return GameData.instance.users.indexOf(user);
+    }
+    private static indexId(id: number): number {
+        return GameData.instance.users.findIndex(u => u.internal_id === id);
     }
 
     static updateUser(user: User): void {

@@ -4,7 +4,7 @@ game 'gta5'
 
 author 'cadox8'
 description 'Simple JS Framework for FiveM. Can be used with JS and Lua.'
-version '0.2.2'
+version '0.2.3'
 
 client_scripts {
     'dist/commons/*.js',

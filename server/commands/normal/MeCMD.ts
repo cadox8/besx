@@ -19,15 +19,16 @@
  * THE SOFTWARE.
  */
 
-import {BaseCommand, CommandType} from "./BaseCommand";
-import {GameData} from "../api/GameData";
+import {BaseCommand, CommandType} from "../BaseCommand";
+import {GameData} from "../../api/GameData";
 import {Vector3} from "fivem-js";
-import {ChatMessageEvent} from "../events/sender/ChatMessageEvent";
+import {ChatMessageEvent} from "../../events/sender/ChatMessageEvent";
+import {Rank} from "../../../commons/api/user/User";
 
 export class MeCMD extends BaseCommand {
 
     constructor() {
-        super('me', 0, CommandType.CLIENT);
+        super('me', Rank.USER, CommandType.CLIENT);
     }
 
     public register(): void {

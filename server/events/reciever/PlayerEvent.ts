@@ -26,16 +26,16 @@ import {GameData} from "../../api/GameData";
 
 export abstract class PlayerEvent {
 
-    protected readonly internal_id: number;
+    protected readonly source: number;
     protected readonly name: string;
 
     protected readonly emitter: User;
 
-    protected constructor(internal_id: number, name: string) {
-        this.internal_id = internal_id;
+    protected constructor(source: number, name: string) {
+        this.source = source;
         this.name = name;
 
-        this.emitter = GameData.findUser(this.internal_id);
+        this.emitter = GameData.findUser(this.source);
 
         this.event();
     }
