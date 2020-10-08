@@ -21,5 +21,11 @@
 
 export class Prefix {
 
-    public static BESX_DANGER = '^4BESX ^r>> ';
+    public static EMPTY = '';
+
+    public static BESX = '^2BESX ^r>> ';
+    public static BESX_DANGER = '^1BESX ^r>> ';
+
+    public static HELP = '^3HELP | ';
+    public static ID = '^6ID | ';
 }

@@ -19,36 +19,17 @@
  * THE SOFTWARE.
  */
 
-import {Database} from "./db/Database";
-import {GameData} from "./api/GameData";
-import {Init} from "./utils/Init";
-import {JobTask} from "./tasks/JobTask";
-import {Updater} from "../commons/utils/Updater";
+export class Stats {
 
-export class Server {
-
-    private init: Init;
-
-    private readonly database: Database;
-
-    private readonly gameData: GameData;
+    public weight: number; // 1-100
+    public resistance: number;
+    public diving: number;
+    public stress: number;
 
     constructor() {
-        console.log('---------------- BESX ----------------');
-        console.log('Starting BESX...');
-        this.init = new Init();
-        new Updater().update();
-
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
-        this.gameData = new GameData();
-
-        this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
-        this.init.loadCommands();
-
-        new JobTask().run();
-        console.log('Started :D');
-        console.log('---------------- BESX ----------------');
+        this.weight = 50;
+        this.resistance = 50;
+        this.diving = 50;
+        this.stress = 0;
     }
 }
-
-const server: Server = new Server();

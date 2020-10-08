@@ -21,6 +21,7 @@
 
 import {GameData} from "../api/GameData";
 import {Server} from "../Server";
+import {PayDayEvent} from "../events/sender/PayDayEvent";
 
 export class JobTask {
 
@@ -32,7 +33,7 @@ export class JobTask {
 
     public run(): void {
         setInterval(async () => {
-            //GameData.prototype.users.forEach(u => Server.instance.sEvents.payDay(u.pay()));
+            GameData.instance.users.forEach(u => new PayDayEvent(u));
         }, this.delay * 1000);
     }
 }

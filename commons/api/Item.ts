@@ -19,36 +19,30 @@
  * THE SOFTWARE.
  */
 
-import {Database} from "./db/Database";
-import {GameData} from "./api/GameData";
-import {Init} from "./utils/Init";
-import {JobTask} from "./tasks/JobTask";
-import {Updater} from "../commons/utils/Updater";
+export class Item {
 
-export class Server {
+    public readonly id: number;
+    public readonly name: string;
+    public readonly displayName: string;
+    public readonly weight: number;
+    public readonly usable: boolean;
 
-    private init: Init;
-
-    private readonly database: Database;
-
-    private readonly gameData: GameData;
-
-    constructor() {
-        console.log('---------------- BESX ----------------');
-        console.log('Starting BESX...');
-        this.init = new Init();
-        new Updater().update();
-
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
-        this.gameData = new GameData();
-
-        this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
-        this.init.loadCommands();
-
-        new JobTask().run();
-        console.log('Started :D');
-        console.log('---------------- BESX ----------------');
+    constructor(id: number, name: string, displayName: string, weight: number = 0.0, usable: boolean = false) {
+        this.id = id;
+        this.name = name;
+        this.displayName = displayName;
+        this.weight = weight;
+        this.usable = usable;
     }
 }
 
-const server: Server = new Server();
+export class InventoryItem {
+
+    public readonly item: Item;
+    public amount: number;
+
+    constructor(item: Item, amount: number = 1) {
+        this.item = item;
+        this.amount = amount;
+    }
+}

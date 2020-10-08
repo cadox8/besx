@@ -20,13 +20,24 @@
  */
 
 import {Employer, Job} from "../../commons/api/Job";
-import {Database} from "./Database";
+import {Database} from "../db/Database";
 import {Log} from "../../commons/utils/Log";
+import {HelpCMD} from "../commands/HelpCMD";
+import {IdCMD} from "../commands/IdCMD";
+import {DoCMD} from "../commands/DoCMD";
+import {MeCMD} from "../commands/MeCMD";
 
 export class Init {
 
     constructor() {
         Log.debug('Loading all data...');
+    }
+
+    public loadCommands(): void {
+        new HelpCMD();
+        new IdCMD();
+        new DoCMD();
+        new MeCMD();
     }
 
     public async loadJobs(): Promise<Job[]> {

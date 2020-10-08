@@ -21,7 +21,7 @@
 
 import {Server} from "../../Server";
 import * as Cfx from 'fivem-js';
-import {User} from "../../../commons/api/User";
+import {User} from "../../../commons/api/user/User";
 import {GameData} from "../../api/GameData";
 
 export abstract class PlayerEvent {

@@ -19,36 +19,21 @@
  * THE SOFTWARE.
  */
 
-import {Database} from "./db/Database";
-import {GameData} from "./api/GameData";
-import {Init} from "./utils/Init";
-import {JobTask} from "./tasks/JobTask";
-import {Updater} from "../commons/utils/Updater";
+import {BaseCommand, CommandType} from "./BaseCommand";
+import {ChatMessageEvent} from "../events/sender/ChatMessageEvent";
+import {Prefix} from "../../commons/utils/Prefix";
 
-export class Server {
-
-    private init: Init;
-
-    private readonly database: Database;
-
-    private readonly gameData: GameData;
+export class IdCMD extends BaseCommand {
 
     constructor() {
-        console.log('---------------- BESX ----------------');
-        console.log('Starting BESX...');
-        this.init = new Init();
-        new Updater().update();
+        super('id');
+    }
 
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
-        this.gameData = new GameData();
+    public register(): void {
+        RegisterCommand(this.command, async (source: number, args: string[]) => {
+            if (source <= 0 || this.type === CommandType.RCON) return;
 
-        this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
-        this.init.loadCommands();
-
-        new JobTask().run();
-        console.log('Started :D');
-        console.log('---------------- BESX ----------------');
+            new ChatMessageEvent(-1, [ 255, 255, 255 ], (!args ? 'Nil' : args.join(' ')), Prefix.ID + this.getUser(source).steamName); // Change Steam ID to Name
+        }, false);
     }
 }
-
-const server: Server = new Server();

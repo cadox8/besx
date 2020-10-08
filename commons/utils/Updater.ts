@@ -23,7 +23,7 @@ import {Log} from "./Log";
 
 export class Updater {
 
-    public static VERSION: string = '0.2.0'
+    public static VERSION: string = '0.2.2'
 
     private checkUpdate(): boolean {
         return true;

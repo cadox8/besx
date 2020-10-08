@@ -21,6 +21,7 @@
 
 import {createPool, MysqlError, Pool} from "mysql";
 import {Log} from "../../commons/utils/Log";
+import {Item} from "../../commons/api/Item";
 
 export class Database {
 
@@ -47,5 +48,11 @@ export class Database {
 
     static get database(): Pool {
         return this._database;
+    }
+
+    public static addNewItem(item: Item): Promise<boolean> {
+        return new Promise<boolean>(success => {
+
+        });
     }
 }
