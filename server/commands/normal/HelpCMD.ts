@@ -29,7 +29,7 @@ export class HelpCMD extends BaseCommand {
         super('help');
     }
 
-    public register(): void {
+    public async register(): Promise<void> {
         RegisterCommand(this.command, async (source: number, args: string[]) => {
             if (source <= 0 || this.type === CommandType.RCON) return;
 

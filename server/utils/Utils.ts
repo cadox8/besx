@@ -19,10 +19,11 @@
  * THE SOFTWARE.
  */
 
-import {Vector3} from "fivem-js";
-import {GameData} from "../api/GameData";
-
 export class Utils {
+
+    public static JSON(value: any): any {
+        return JSON.parse(JSON.stringify(value));
+    }
 
     public static getSteamData(steam_id: string): any {
 

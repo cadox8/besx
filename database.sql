@@ -56,13 +56,23 @@ create table if not exists stats (
     foreign key (user_id) references userdata(id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
+create table if not exists items (
+    id              integer(255) unsigned not null auto_increment,
+    name            varchar(255) not null,
+    displayName     varchar(255) not null,
+    weight          double(255, 2) not null default 0,
+    usable          integer(1) not null default 0,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
 create table if not exists job (
     id              integer(255) UNSIGNED NOT NULL AUTO_INCREMENT,
     name            varchar(255) not null default 'Unemployed',
+    deposit         double(255, 2) not null default 0,
     primary key (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-create table if not exists jobs (
+create table if not exists employers (
     id              integer(255) unsigned not null auto_increment,
     job             integer(255) not null default 0,
     name            varchar(255) not null default 'Unemployed',
@@ -73,4 +83,4 @@ create table if not exists jobs (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 insert into job (name) VALUE ('Unemployed');
-insert into jobs (job, name, salary) VALUE (0, 'Unemployed', 50);
+insert into employers (job, name, salary) VALUE (0, 'Unemployed', 50);

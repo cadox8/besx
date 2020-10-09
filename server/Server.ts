@@ -44,6 +44,7 @@ export class Server {
 
         this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
         this.init.loadCommands();
+        this.init.loadItems().then(items => this.gameData.items = items);
 
         new JobTask().run();
         console.log('Started :D');

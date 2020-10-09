@@ -21,6 +21,7 @@
 
 import {User} from "../../../commons/api/user/User";
 import {BaseEvent} from "./BaseEvent";
+import {GameData} from "../../api/GameData";
 
 export class CreateUserEvent extends BaseEvent {
 
@@ -30,10 +31,10 @@ export class CreateUserEvent extends BaseEvent {
     constructor(target: number, user: User, needSetup: boolean) {
         super(target)
         this.user = user;
-        this.needSetup = needSetup;
+        this.needSetup = !needSetup;
     }
 
     protected event(): void {
-        TriggerClientEvent('besx:generatePlayer', this.target, this.user, this.needSetup);
+        TriggerClientEvent('besx:generatePlayer', this.target, this.user, this.needSetup, GameData.instance.items);
     }
 }

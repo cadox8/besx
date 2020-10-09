@@ -21,19 +21,21 @@
 
 export class Job {
 
-    private readonly _id: number;
-    private readonly _name: string;
+    public readonly id: number;
+    public readonly name: string;
+    public deposit: number;
 
-    private readonly _ranks: Employer[];
+    public readonly ranks: Employer[];
 
     constructor(id: number, name: string) {
-        this._id = id;
-        this._name = name || 'Undefined';
-        this._ranks = [];
+        this.id = id;
+        this.name = name || 'Undefined';
+        this.deposit = 0;
+        this.ranks = [];
     }
 
     public addRank(rank: Employer): void {
-        this._ranks.push(rank);
+        this.ranks.push(rank);
     }
 
     public rank(id: number): Employer {
@@ -41,59 +43,23 @@ export class Job {
     }
 
     public getBoss(): Employer {
-        return this._ranks.find(r => r.boss);
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    get name(): string {
-        return this._name;
-    }
-
-    get ranks(): Employer[] {
-        return this._ranks;
+        return this.ranks.find(r => r.boss);
     }
 }
 
 export class Employer {
 
-    private readonly _id: number;
-    private readonly _name: string;
-    private _salary: number;
+    public readonly id: number;
+    public readonly name: string;
+    public salary: number;
 
-    private _boss: boolean;
+    public boss: boolean;
 
     constructor(id: number, name: string) {
-        this._id = id;
-        this._name = name;
+        this.id = id;
+        this.name = name;
 
-        this._salary = 0;
-        this._boss = false;
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    get name(): string {
-        return this._name;
-    }
-
-    get salary(): number {
-        return this._salary;
-    }
-
-    set salary(value: number) {
-        this._salary = value;
-    }
-
-    get boss(): boolean {
-        return this._boss;
-    }
-
-    set boss(value: boolean) {
-        this._boss = value;
+        this.salary = 0;
+        this.boss = false;
     }
 }

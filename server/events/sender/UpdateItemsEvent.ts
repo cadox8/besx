@@ -19,38 +19,16 @@
  * THE SOFTWARE.
  */
 
-export class Item {
+import {BaseEvent} from "./BaseEvent";
+import {GameData} from "../../api/GameData";
 
-    public readonly id: number;
-    public readonly name: string;
-    public readonly displayName: string;
-    public readonly weight: number;
-    public readonly usable: boolean;
+export class UpdateItemsEvent extends BaseEvent {
 
-    constructor(id: number, name: string, displayName: string, weight: number = 0.0, usable: boolean = false) {
-        this.id = id;
-        this.name = name;
-        this.displayName = displayName;
-        this.weight = weight;
-        this.usable = usable;
+    constructor() {
+        super(-1);
     }
 
-    public json(): string {
-        return JSON.stringify(this);
-    }
-}
-
-export class InventoryItem {
-
-    public readonly item: Item;
-    public amount: number;
-
-    constructor(item: Item, amount: number = 1) {
-        this.item = item;
-        this.amount = amount;
-    }
-
-    public json(): string {
-        return JSON.stringify(this);
+    protected event() {
+        TriggerClientEvent('besx:items', -1, GameData.instance.items);
     }
 }

@@ -22,6 +22,8 @@
 import {Job} from "../../commons/api/Job";
 import {User} from "../../commons/api/user/User";
 import {Game} from "fivem-js";
+import {Item} from "../../commons/api/Item";
+import {UpdateItemsEvent} from "../events/sender/UpdateItemsEvent";
 
 export class GameData {
 
@@ -29,25 +31,24 @@ export class GameData {
 
     private internal_id_counter: number = 0;
 
-    private readonly _users: User[];
-    private _jobs: Job[];
+    public readonly users: User[];
+    public jobs: Job[];
+    public items: Item[];
 
     constructor() {
         GameData.instance = this;
-        this._users = [];
-        this._jobs = [];
+        this.users = [];
+        this.jobs = [];
+        this.items = [];
     }
 
-    get users(): User[] {
-        return this._users;
+    static lastItem(): number {
+        return GameData.instance.items.reverse()[0].id;
     }
 
-    get jobs(): Job[] {
-        return this._jobs;
-    }
-
-    set jobs(value: Job[]) {
-        this._jobs = value;
+    static addItem(item: Item): void {
+        GameData.instance.items.push(item);
+        new UpdateItemsEvent();
     }
 
     static nextId(): number {

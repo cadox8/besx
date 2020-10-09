@@ -20,20 +20,34 @@
  */
 
 import {BaseCommand, CommandType} from "../BaseCommand";
+import {Rank} from "../../../commons/api/user/User";
+import {Database} from "../../db/Database";
+import {Item} from "../../../commons/api/Item";
+import {GameData} from "../../api/GameData";
 import {ChatMessageEvent} from "../../events/sender/ChatMessageEvent";
+import {Colors} from "../../../commons/utils/Colors";
 import {Prefix} from "../../../commons/utils/Prefix";
 
-export class IdCMD extends BaseCommand {
+export class CreateItemCMD extends BaseCommand {
 
     constructor() {
-        super('id');
+        super('createitem', Rank.MODERATOR, CommandType.BOTH);
     }
 
     public async register(): Promise<void> {
         RegisterCommand(this.command, async (source: number, args: string[]) => {
-            if (source <= 0 || this.type === CommandType.RCON) return;
+            if (source <= 0) return;
+            if (args.length < 2 || args.length > 3) {
+                new ChatMessageEvent(source, Colors.WHITE, 'To much or many arguments!', Prefix.BESX_DANGER)
+                return;
+            }
+            const created: boolean = await Database.addNewItem(new Item(GameData.lastItem() + 1, args[0], args[1], (!args[2] ? 0.0 : Number(args[2]))));
 
-            new ChatMessageEvent(-1, [ 255, 255, 255 ], (!args ? 'Nil' : args.join(' ')), Prefix.ID + this.getUser(source).steamName); // Change Steam ID to Name
+            if (created) {
+                new ChatMessageEvent(source, Colors.WHITE, 'Item created successfully!!', Prefix.BESX);
+            } else {
+                new ChatMessageEvent(source, Colors.WHITE, 'An error occurred while creating the item', Prefix.BESX_DANGER);
+            }
         }, false);
     }
 }

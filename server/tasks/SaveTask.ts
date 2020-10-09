@@ -19,38 +19,22 @@
  * THE SOFTWARE.
  */
 
-export class Item {
+import {GameData} from "../api/GameData";
+import {Server} from "../Server";
+import {PayDayEvent} from "../events/sender/PayDayEvent";
+import {UserManager} from "../db/UserManager";
 
-    public readonly id: number;
-    public readonly name: string;
-    public readonly displayName: string;
-    public readonly weight: number;
-    public readonly usable: boolean;
+export class JobTask {
 
-    constructor(id: number, name: string, displayName: string, weight: number = 0.0, usable: boolean = false) {
-        this.id = id;
-        this.name = name;
-        this.displayName = displayName;
-        this.weight = weight;
-        this.usable = usable;
+    private readonly delay: number; // Seconds
+
+    constructor(delay: number = 60 * 5) {
+        this.delay = delay;
     }
 
-    public json(): string {
-        return JSON.stringify(this);
-    }
-}
-
-export class InventoryItem {
-
-    public readonly item: Item;
-    public amount: number;
-
-    constructor(item: Item, amount: number = 1) {
-        this.item = item;
-        this.amount = amount;
-    }
-
-    public json(): string {
-        return JSON.stringify(this);
+    public run(): void {
+        setInterval(async () => {
+            GameData.instance.users.forEach(u => UserManager.saveUser(u));
+        }, this.delay * 1000);
     }
 }

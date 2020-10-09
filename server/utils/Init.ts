@@ -28,6 +28,9 @@ import {DoCMD} from "../commands/normal/DoCMD";
 import {MeCMD} from "../commands/normal/MeCMD";
 import {ReportCMD} from "../commands/normal/ReportCMD";
 import {KickCMD} from "../commands/admin/KickCMD";
+import {Item} from "../../commons/api/Item";
+import {Utils} from "./Utils";
+import {CreateItemCMD} from "../commands/mod/CreateItemCMD";
 
 export class Init {
 
@@ -35,31 +38,46 @@ export class Init {
         Log.debug('Loading all data...');
     }
 
-    public loadCommands(): void {
+    public async loadCommands(): Promise<void> {
         Log.debug('Loading commands...');
         // Normal
-        new HelpCMD().register();
-        new IdCMD().register();
-        new DoCMD().register();
-        new MeCMD().register();
-        new ReportCMD().register();
+        await new HelpCMD().register();
+        await new IdCMD().register();
+        await new DoCMD().register();
+        await new MeCMD().register();
+        await new ReportCMD().register();
+
+        // mod
+        await new CreateItemCMD().register();
 
         // Admin
-        new KickCMD().register();
+        await new KickCMD().register();
+    }
+
+    public async loadItems(): Promise<Item[]> {
+        Log.debug('Loading Items...');
+        return new Promise(items => {
+            const tempItems: Item[] = [];
+            Database.database.query("select * from items", (err, result) => {
+                const itemsData: any = Utils.JSON(result);
+                itemsData.forEach(i => tempItems.push(new Item(i.id, i.name, i.displayName, i.weight, Boolean(i.usable))));
+            });
+            items(tempItems);
+        });
     }
 
     public async loadJobs(): Promise<Job[]> {
         Log.debug('Loading jobs...');
         return new Promise(jobs => {
             const tempJobs: Job[] = [];
-           Database.database.query("select * from jobs", (err, result) => {
+            Database.database.query("select * from jobs", (err, result) => {
                if (err) jobs(tempJobs);
                const jobData: any = JSON.parse(JSON.stringify(result));
 
                jobData.forEach(j => {
                    const job: Job = new Job(j.id, j.name);
 
-                   Database.database.query("select * from jobs WHERE job='" + job.id + "'", (err2, result2) => {
+                   Database.database.query("select * from employers WHERE job='" + job.id + "'", (err2, result2) => {
                        if (err2) job.addRank(new Employer(1, 'Undefined'));
                        const emplData: any = JSON.parse(JSON.stringify(result2));
 
@@ -73,7 +91,7 @@ export class Init {
                    tempJobs.push(job);
                });
                jobs(tempJobs);
-           })
+            });
         });
     }
 }

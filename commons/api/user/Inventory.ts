@@ -83,4 +83,8 @@ export class Inventory {
         this.totalWeight = 0;
         this.items.forEach(i => this.totalWeight += (i.item.weight * i.amount));
     }
+
+    public json(): string {
+        return JSON.stringify(this);
+    }
 }
