@@ -19,42 +19,31 @@
  * THE SOFTWARE.
  */
 
+import {EventHandler} from "./events/EventHandler";
 import {User} from "../commons/api/user/User";
-import {REvents} from "./events/REvents";
-import {SEvents} from "./events/SEvents";
+import {Item} from "../commons/api/Item";
+import {Character} from "./data/Character";
 
 export class Client {
 
-    private static _instance: Client;
+    public static instance: Client;
 
-    private _user: User;
-    private readonly _sEvents: SEvents;
+    private readonly character: Character;
+
+    public user: User = null;
+    public items: Item[] = [];
 
     constructor() {
-        Client._instance = this;
+        Client.instance = this;
 
         console.error('---------------- BESX ----------------');
         console.log('Loading everything...');
-        new REvents();
-        this._sEvents = new SEvents();
+
+        this.character = new Character();
+        new EventHandler().handle();
+
         console.log('Loaded!');
         console.error('---------------- BESX ----------------');
-    }
-
-    static get instance(): Client {
-        return this._instance;
-    }
-
-    get user(): User {
-        return this._user;
-    }
-
-    set user(value: User) {
-        this._user = value;
-    }
-
-    get sEvents(): SEvents {
-        return this._sEvents;
     }
 }
 

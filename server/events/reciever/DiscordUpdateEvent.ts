@@ -19,18 +19,6 @@
  * THE SOFTWARE.
  */
 
-import {BaseEvent} from "./BaseEvent";
+export class DiscordUpdateEvent {
 
-export class PlayerKickEvent extends BaseEvent {
-
-    private readonly reason: string;
-
-    constructor(target: number, reason: string = 'You have been kicked from the server without any reason') {
-        super(target);
-        this.reason = reason;
-    }
-
-    protected event(): void {
-        TriggerClientEvent('besx:cya', this.target, this.reason);
-    }
 }

@@ -22,6 +22,7 @@
 import {BaseCommand, CommandType} from "../BaseCommand";
 import {Rank, User} from "../../../commons/api/user/User";
 import {PlayerKickEvent} from "../../events/sender/PlayerKickEvent";
+import {UserManager} from "../../db/UserManager";
 
 export class KickCMD extends BaseCommand {
 
@@ -51,7 +52,8 @@ export class KickCMD extends BaseCommand {
 
                 return;
             }
-            new PlayerKickEvent(target.internal_id, reason);
+            const saved: boolean = await UserManager.saveUser(who);
+            DropPlayer(String(target.internal_id), reason);
         }, false);
     }
 }

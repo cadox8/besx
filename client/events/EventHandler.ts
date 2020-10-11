@@ -19,27 +19,30 @@
  * THE SOFTWARE.
  */
 
-import {Prefix} from "../../../commons/utils/Prefix";
-import {BaseEvent} from "./BaseEvent";
+import {User} from "../../commons/api/user/User";
+import {Client} from "../Client";
+import {Notify} from "../utils/Notify";
+import {NotificationType} from "fivem-js";
+import {Texture} from "../utils/Texture";
+import {Item} from "../../commons/api/Item";
 
-export class ChatMessageEvent extends BaseEvent {
+export class EventHandler {
 
-    private readonly color: number[];
-    private readonly prefix: string;
-    private readonly msg: string;
+    public handle(): void {
+        onNet('besx:generatePlayer', (user: User, needSetup: boolean) => {
+            Client.instance.user = user;
+            if (needSetup) {
 
-    constructor(target: number, color: number[], msg: string, prefix: string = Prefix.BESX) {
-        super(target)
-        this.color = color;
-        this.prefix = prefix;
-        this.msg = msg;
-    }
-
-    protected event(): void {
-        TriggerClientEvent('chat:addMessage', this.target, {
-            color: this.color,
-            multiline: true,
-            args: [this.prefix, this.msg]
+            }
         });
+
+        onNet('besx:payday', (amount: number, user: User) => {
+            Client.instance.user = user;
+            const notification: Notify = new Notify(`You recieved ${amount}$ from the Goverment`, NotificationType.Default);
+            notification.show(Texture.CHAR_BANK_MAZE, 'Maze Bank', '');
+            setTimeout(() => notification.hide(), 1000 * 4);
+        });
+
+        onNet('besx:items', (items: Item[]) => Client.instance.items = items);
     }
 }

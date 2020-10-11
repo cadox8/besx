@@ -24,6 +24,7 @@ import {GameData} from "./api/GameData";
 import {Init} from "./utils/Init";
 import {JobTask} from "./tasks/JobTask";
 import {Updater} from "../commons/utils/Updater";
+import {EventHandler} from "./events/EventHandler";
 
 export class Server {
 
@@ -38,6 +39,8 @@ export class Server {
         console.log('Starting BESX...');
         this.init = new Init();
         new Updater().update();
+
+        new EventHandler().handle();
 
         this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
         this.gameData = new GameData();

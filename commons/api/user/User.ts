@@ -40,6 +40,8 @@ export class User {
     public bank: number = 0;
     public blackMoney: number = 0;
 
+    public death: boolean = false;
+
     // Data
     public stats: Stats = new Stats();
     public inventory: Inventory = new Inventory(25 + (this.stats.weight * 0.2));

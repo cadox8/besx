@@ -19,27 +19,28 @@
  * THE SOFTWARE.
  */
 
-import {Prefix} from "../../../commons/utils/Prefix";
-import {BaseEvent} from "./BaseEvent";
+import {NotificationType, Notification} from "fivem-js";
 
-export class ChatMessageEvent extends BaseEvent {
+export class Notify {
 
-    private readonly color: number[];
-    private readonly prefix: string;
+    private handle: number;
+
+    private readonly type: NotificationType;
     private readonly msg: string;
 
-    constructor(target: number, color: number[], msg: string, prefix: string = Prefix.BESX) {
-        super(target)
-        this.color = color;
-        this.prefix = prefix;
+    constructor(msg: string, type: NotificationType) {
         this.msg = msg;
+        this.type = type;
     }
 
-    protected event(): void {
-        TriggerClientEvent('chat:addMessage', this.target, {
-            color: this.color,
-            multiline: true,
-            args: [this.prefix, this.msg]
-        });
+    public show(texture: string, sender: string, subject: string): void {
+        SetNotificationTextEntry("STRING");
+        AddTextComponentString(this.msg);
+        EndTextCommandThefeedPostMessagetext(texture, texture, true, this.type, sender, subject);
+        this.handle = DrawNotification(true, true);
+    }
+
+    public hide(): void {
+        new Notification(this.handle).hide();
     }
 }
