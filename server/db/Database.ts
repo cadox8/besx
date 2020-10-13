@@ -23,6 +23,7 @@ import {createPool, MysqlError, Pool} from "mysql";
 import {Log} from "../../commons/utils/Log";
 import {Item} from "../../commons/api/Item";
 import {GameData} from "../api/GameData";
+import {UpdateItemsEvent} from "../events/sender/UpdateItemsEvent";
 
 export class Database {
 
@@ -54,7 +55,10 @@ export class Database {
     public static addNewItem(item: Item): Promise<boolean> {
         return new Promise<boolean>(success => {
             Database.database.query("insert into items(name, displayName, weight) values ('" + item.name + "', '" + item.displayName + "', '" + item.weight + "')", (err, result) => {
-                if (!err) GameData.addItem(item);
+                if (!err) {
+                    GameData.addItem(item);
+                    new UpdateItemsEvent();
+                }
                 success(!err);
             })
         });
