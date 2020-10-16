@@ -19,17 +19,34 @@
  * THE SOFTWARE.
  */
 
-export class SEvents {
+export class Discord {
 
-    public heartBeat(): void {
-        emitNet('besx:heartBeat', 'HeartBeat');
+    private readonly appID: number;
+    private readonly logo: string;
+    private readonly logoSmall: string;
+    public text: string;
+    public logoText: string;
+    public logoTextSmall: string;
+
+    constructor(appID: number, logo: string, logoSmall: string, logoText: string, logoTextSmall: string, text: string) {
+        this.appID = appID;
+        this.logo = logo;
+        this.logoSmall = logoSmall;
+        this.logoText = logoText;
+        this.logoTextSmall = logoTextSmall;
+        this.text = text;
+
+        this.update();
     }
 
-    public getUserId(): void {
-        emitNet('besx:getUserId');
-    }
-
-    public requestUserInfo(): void {
-
+    private update(): void {
+        setInterval(() => {
+            SetDiscordAppId(String(this.appID));
+            SetRichPresence(this.text);
+            SetDiscordRichPresenceAsset(this.logo);
+            SetDiscordRichPresenceAssetText(this.logoText);
+            SetDiscordRichPresenceAssetSmall(this.logoSmall);
+            SetDiscordRichPresenceAssetSmallText(this.logoTextSmall);
+        }, 1000 * 60);
     }
 }

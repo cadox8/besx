@@ -23,7 +23,7 @@ import {PlayerEvent} from "./PlayerEvent";
 import {Log} from "../../../commons/utils/Log";
 import {Server} from "../../Server";
 import {User} from "../../../commons/api/user/User";
-import {UserLoader} from "../../db/UserLoader";
+import {UserManager} from "../../db/UserManager";
 import {GameData} from "../../api/GameData";
 import {CreateUserEvent} from "../sender/CreateUserEvent";
 
@@ -61,7 +61,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
                     this.deferrals.done("You are not connected to Steam or Discord.");
                 } else {
                     this.deferrals.done();
-                    const user: { user: User, exists: boolean } = await UserLoader.getUser(GameData.nextId(), data.steam, data.discord);
+                    const user: { user: User, exists: boolean } = await UserManager.getUser(GameData.nextId(), data.steam, data.discord);
                     user.user.steamName = data.steamName;
                     GameData.addUser(user.user);
                     new CreateUserEvent(this.source, user.user, user.exists);

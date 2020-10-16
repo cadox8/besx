@@ -31,11 +31,12 @@ export abstract class PlayerEvent {
 
     protected readonly emitter: User;
 
-    protected constructor(source: number, name: string) {
+    protected constructor(source: number, name?: string) {
         this.source = source;
-        this.name = name;
 
-        this.emitter = GameData.findUser(this.source);
+        if (source !== -2) this.emitter = GameData.findUser(this.source);
+
+        this.name = name === null ? (source !== -2) ? this.emitter.steamName : '---' : name;
 
         this.event();
     }

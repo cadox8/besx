@@ -1,11 +1,10 @@
 {
   "name": "besx",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "BESX is a RolePlay Framework for FiveM servers developed in TypeScript.",
   "repository": "git:github.com/cadox8/besx.git",
   "scripts": {
-    "build": "webpack --mode production",
-    "publish": "npm publish"
+    "build": "webpack --mode production"
   },
   "author": {
     "name": "cadox8",
@@ -23,20 +22,20 @@
     "fivemjs",
     "gtav"
   ],
-  "license": "ISC",
+  "license": "All Rights Reserved",
   "dependencies": {
-    "fivem-js": "^1.3.3",
-    "@citizenfx/client": "^1.0.2934-1",
-    "@citizenfx/server": "^1.0.2934-1",
+    "fivem-js": "^1.4.0",
+    "@citizenfx/client": "^1.0.3073-1",
+    "@citizenfx/server": "^1.0.3073-1",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
     "@types/mysql": "^2.15.15",
-    "@types/node": "^14.6.4",
-    "ts-loader": "^8.0.3",
-    "typescript": "^4.0.2",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
+    "@types/node": "^14.11.10",
+    "ts-loader": "^8.0.5",
+    "typescript": "^4.0.3",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.0.0",
     "webpack-glob-entry": "^2.1.1"
   }
 }

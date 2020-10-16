@@ -31,7 +31,7 @@ export class MeCMD extends BaseCommand {
         super('me', Rank.USER, CommandType.CLIENT);
     }
 
-    public register(): void {
+    public async register(): Promise<void> {
         RegisterCommand(this.command, async (source: number, args: string[]) => {
             if (source <= 0 || this.type === CommandType.RCON) return;
             const point: number[] = GetEntityCoords(GetPlayerPed(String(source)));

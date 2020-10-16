@@ -61,7 +61,7 @@ const server = {
         server: './server/Server.ts',
         database: './server/db/Database.ts',
         init: './server/db/Init.ts',
-        userLoader: './server/db/UserLoader.ts',
+        userLoader: './server/db/UserManager.ts',
         gameData: './server/api/GameData.ts',
         jobTask: './server/tasks/JobTask.ts',
         rEvents: './server/events/REvents.ts',

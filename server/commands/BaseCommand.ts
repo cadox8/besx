@@ -36,7 +36,7 @@ export abstract class BaseCommand {
         this._type = type;
     }
 
-    public abstract register(): void;
+    public async abstract register(): Promise<void>;
 
     get command(): string {
         return this._command;

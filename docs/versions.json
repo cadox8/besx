@@ -1,6 +1,11 @@
 {
-  "last": 3,
+  "last": 4,
   "versions": [
+    {
+      "version": "v0.2.4",
+      "changes": "Documentation updated and Big changes",
+      "date": "------"
+    },
     {
       "version": "v0.2.3",
       "changes": "Database and Documentation updated",

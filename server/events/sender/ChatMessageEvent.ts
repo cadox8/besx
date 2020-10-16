@@ -20,7 +20,6 @@
  */
 
 import {Prefix} from "../../../commons/utils/Prefix";
-import {GameData} from "../../api/GameData";
 import {BaseEvent} from "./BaseEvent";
 
 export class ChatMessageEvent extends BaseEvent {

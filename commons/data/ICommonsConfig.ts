@@ -19,18 +19,19 @@
  * THE SOFTWARE.
  */
 
-import {BaseEvent} from "./BaseEvent";
-
-export class PlayerKickEvent extends BaseEvent {
-
-    private readonly reason: string;
-
-    constructor(target: number, reason: string = 'You have been kicked from the server without any reason') {
-        super(target);
-        this.reason = reason;
-    }
-
-    protected event(): void {
-        TriggerClientEvent('besx:cya', this.target, this.reason);
+export interface ICommonsConfig {
+    debug: boolean,
+    updaterLog: boolean,
+    modules: {
+        money: boolean,
+        characters: boolean,
+        voice: boolean,
+        phone: boolean,
+        animations: boolean,
+        models: boolean,
+        police: boolean,
+        ems: boolean,
+        mechanic: boolean,
+        supermarket: boolean
     }
 }

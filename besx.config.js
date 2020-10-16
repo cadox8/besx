@@ -19,18 +19,39 @@
  * THE SOFTWARE.
  */
 
-import {Client} from "../Client";
-import {User} from "../../commons/api/user/User";
-
-export class REvents {
-
-    constructor() {
-        this.events();
+export const client = {
+    keys: {
+        inventory: 289
     }
+}
 
-    private events(): void {
-        onNet('besx:createUser', (user: User) => Client.instance.user = user);
+export const server = {
+    mysql: {
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: ""
+    },
+    moderation: {
+        kickBroadcast: true,
+        banBroadcast: true,
+        avoidRanks: false // Do not set this to true unless you want that, for example, a mod can kick an admin
+    }
+}
 
-        onNet('besx:payday', (amount: number) => SetNotificationMessage('maze', 'maze', true, 9, 'Maze Bank', 'You received ' + amount + '$ from your work'));
+export const commons = {
+    debug: true,
+    updaterLog: true,
+    modules: {
+        money: true,
+        characters: true,
+        voice: true,
+        phone: true,
+        animations: true,
+        models: true,
+        police: true,
+        ems: true,
+        mechanic: true,
+        supermarket: true
     }
 }

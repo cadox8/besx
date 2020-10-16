@@ -27,12 +27,20 @@ export class Item {
     public readonly weight: number;
     public readonly usable: boolean;
 
-    constructor(id: number, name: string, displayName: string, weight: number = 0.0, usable: boolean = false) {
+    public callback?: void;
+
+    constructor(id: number, name: string, displayName: string, weight: number = 0.0, usable: boolean = false, callback?: void) {
         this.id = id;
         this.name = name;
         this.displayName = displayName;
         this.weight = weight;
         this.usable = usable;
+
+        this.callback = callback;
+    }
+
+    public json(): string {
+        return JSON.stringify(this);
     }
 }
 
@@ -40,9 +48,15 @@ export class InventoryItem {
 
     public readonly item: Item;
     public amount: number;
+    public maxStack: number;
 
-    constructor(item: Item, amount: number = 1) {
+    constructor(item: Item, amount: number = 1, maxStack: number = 50) {
         this.item = item;
         this.amount = amount;
+        this.maxStack = maxStack;
+    }
+
+    public json(): string {
+        return JSON.stringify(this);
     }
 }

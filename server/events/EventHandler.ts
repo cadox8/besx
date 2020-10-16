@@ -21,11 +21,15 @@
 
 import {PlayerConnectingEvent} from "./reciever/PlayerConnectingEvent";
 import {PlayerDroppedEvent} from "./reciever/PlayerDroppedEvent";
+import {Item} from "../../commons/api/Item";
+import {PlayerUseItemEvent} from "./reciever/PlayerUseItemEvent";
 
 export class EventHandler {
 
     public handle(): void {
         on('playerConnecting', (name: string, setKickReason: any, deferrals: any) => new PlayerConnectingEvent(name, setKickReason, deferrals));
         on('playerDropper', (source: number, reason: string) => new PlayerDroppedEvent(source, reason));
+
+        onNet('besx:useItem', (source: number, item: Item) => new PlayerUseItemEvent(source, item));
     }
 }

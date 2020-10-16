@@ -10,6 +10,9 @@
   "moderation": {
     "kickBroadcast": true
   },
+  "keys": {
+    "inventory": 289
+  },
   "modules": {
     "money": true,
     "characters": true,
