@@ -1,6 +1,14 @@
 - About
-    - [About BESX](/#besx)
-  
+    - [BESX](/about/index)
+    - [F.A.Q](/about/faq)
+- BESX
+    - [Index](/besx/index)  
+    - [Installation](/besx/installation)
+    - [Commons](#)
+        - [User](/besx/commons/user)
+    - [Server](#)
+        - [Functions](#)
+    
 - []()
 - []()  
 - [Github](https://github.com/cadox8/besx)
