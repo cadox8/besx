@@ -19,34 +19,19 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+import {Item} from "../../../commons/api/Item";
+import {BaseEvent} from "./BaseEvent";
 
-export class Client {
+export class UseItemEvent extends BaseEvent {
 
-    public static instance: Client;
+    private readonly item: Item;
 
-    private readonly character: Character;
+    constructor(user: number, item: Item) {
+        super(user);
+        this.item = item;
+    }
 
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+    protected event(): void {
+        emitNet('besx:useItem', this.user, this.item);
     }
 }
-
-const client: Client = new Client();

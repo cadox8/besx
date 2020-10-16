@@ -25,8 +25,13 @@ import {Init} from "./utils/Init";
 import {JobTask} from "./tasks/JobTask";
 import {Updater} from "../commons/utils/Updater";
 import {EventHandler} from "./events/EventHandler";
+import {SaveTask} from "./tasks/SaveTask";
+import {IServerConfig} from "./utils/IServerConfig";
+import {BroadcastTask} from "./tasks/BroadcastTask";
 
 export class Server {
+
+    public static config: IServerConfig;
 
     private init: Init;
 
@@ -37,12 +42,15 @@ export class Server {
     constructor() {
         console.log('---------------- BESX ----------------');
         console.log('Starting BESX...');
+        Server.config = require('../besx.config.js').server;
+        Server.config.commons = require('../besx.config.js').commons;
+
         this.init = new Init();
         new Updater().update();
 
         new EventHandler().handle();
 
-        this.database = new Database({ host: '', user: '', port: 0, password: '', database: 'besx' });
+        this.database = new Database(Server.config.mysql, 'besx');
         this.gameData = new GameData();
 
         this.init.loadJobs().then(jobs => this.gameData.jobs = jobs);
@@ -50,6 +58,8 @@ export class Server {
         this.init.loadItems().then(items => this.gameData.items = items);
 
         new JobTask().run();
+        new SaveTask().run();
+        new BroadcastTask().run();
         console.log('Started :D');
         console.log('---------------- BESX ----------------');
     }

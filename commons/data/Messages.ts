@@ -19,34 +19,9 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+export class Messages {
 
-export class Client {
+    private static messages: any = require('../../besx.messages').messages;
 
-    public static instance: Client;
-
-    private readonly character: Character;
-
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
-    }
+    public static BROADCAST: string[] = Messages.messages.broadcast;
 }
-
-const client: Client = new Client();

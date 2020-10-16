@@ -19,34 +19,27 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+import {PlayerEvent} from "./PlayerEvent";
+import {InventoryItem, Item} from "../../../commons/api/Item";
+import {GameData} from "../../api/GameData";
+import {UpdateUserEvent} from "../sender/UpdateUserEvent";
 
-export class Client {
+export class PlayerUseItemEvent extends PlayerEvent {
 
-    public static instance: Client;
+    private readonly item: Item;
 
-    private readonly character: Character;
+    constructor(source: number, item: Item) {
+        super(source);
 
-    public user: User = null;
-    public items: Item[] = [];
+        this.item = item;
+    }
 
-    constructor() {
-        Client.instance = this;
+    protected event(): void {
+        this.emitter.inventory.remove(new InventoryItem(this.item, 1));
 
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
+        this.item.callback;
 
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+        GameData.updateUser(this.emitter);
+        new UpdateUserEvent(this.source);
     }
 }
-
-const client: Client = new Client();

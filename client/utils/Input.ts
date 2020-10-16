@@ -19,31 +19,30 @@
  * THE SOFTWARE.
  */
 
-import {User} from "../../commons/api/user/User";
-import {Client} from "../Client";
-import {Notify} from "../utils/Notify";
-import {NotificationType} from "fivem-js";
-import {Texture} from "../utils/Texture";
-import {Item} from "../../commons/api/Item";
+import {InventoryMenu} from "../menus/InventoryMenu";
+import {Menu} from "fivem-js";
 
-export class EventHandler {
+export class Input {
 
-    public handle(): void {
-        onNet('besx:generatePlayer', (user: User, needSetup: boolean) => {
-            Client.instance.user = user;
-            if (needSetup) {
+    private invOpened: boolean = false;
 
+    private inventoryMenu: Menu;
+
+    constructor() {
+        setInterval(() => this.checkKeys(), 500);
+    }
+
+    private checkKeys(): void {
+        // Inventory
+        if (IsControlPressed(0, 289)) {
+            if (this.invOpened) {
+                this.invOpened = false;
+                this.inventoryMenu.close();
+                this.inventoryMenu = null;
+                return;
             }
-        });
-
-        onNet('besx:payday', (amount: number, user: User) => {
-            Client.instance.user = user;
-            const notification: Notify = new Notify(`You recieved ${amount}$ from the Goverment`, NotificationType.Default);
-            notification.show(Texture.CHAR_BANK_MAZE, 'Maze Bank', '');
-            setTimeout(() => notification.hide(), 1000 * 4);
-        });
-
-        onNet('besx:items', (items: Item[]) => Client.instance.items = items);
-        onNet('besx:user', (user: User) => Client.instance.user = user);
+            this.invOpened = true;
+            this.inventoryMenu = new InventoryMenu().open();
+        }
     }
 }

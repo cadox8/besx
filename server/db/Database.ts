@@ -29,18 +29,18 @@ export class Database {
 
     private static _database: Pool;
 
-    constructor({ host, port, user, password, database }) {
+    constructor(mysql: { host: string, port: number, user: string, password: string }, database: string) {
         Log.debug('Loading Database...');
-        this.loadPool({ host, port, user, password, database });
+        this.loadPool(mysql, database);
         Log.debug('Database Loaded!');
     }
 
-    private loadPool({ host, port, user, password, database }): void {
+    private loadPool(mysql: { host: string, port: number, user: string, password: string }, database: string): void {
         Database._database = createPool({
-            host: host,
-            port: port,
-            user: user,
-            password: password,
+            host: mysql.host,
+            port: mysql.port,
+            user: mysql.user,
+            password: mysql.password,
             database: database,
             multipleStatements: true
         });

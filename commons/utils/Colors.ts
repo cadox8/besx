@@ -22,4 +22,5 @@
 export class Colors {
 
     public static WHITE: number[] = [255, 255, 255];
+    public static RED: number[] = [255, 87, 51];
 }

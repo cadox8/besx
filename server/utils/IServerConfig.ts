@@ -19,34 +19,19 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+import {ICommonsConfig} from "../../commons/data/ICommonsConfig";
 
-export class Client {
-
-    public static instance: Client;
-
-    private readonly character: Character;
-
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+export interface IServerConfig {
+    commons: ICommonsConfig,
+    mysql: {
+        host: string,
+        port: number,
+        user: string,
+        password: string
+    },
+    moderation: {
+        kickBroadcast: boolean,
+        banBroadcast: boolean,
+        avoidRanks: boolean
     }
 }
-
-const client: Client = new Client();

@@ -19,34 +19,27 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+import {GameData} from "../api/GameData";
+import {Server} from "../Server";
+import {PayDayEvent} from "../events/sender/PayDayEvent";
+import {ChatMessageEvent} from "../events/sender/ChatMessageEvent";
+import {Colors} from "../../commons/utils/Colors";
+import {Messages} from "../../commons/data/Messages";
 
-export class Client {
+export class BroadcastTask {
 
-    public static instance: Client;
+    private readonly delay: number; // Seconds
 
-    private readonly character: Character;
+    private index: number = 0;
 
-    public user: User = null;
-    public items: Item[] = [];
+    constructor(delay: number = 60 * 5) {
+        this.delay = delay;
+    }
 
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+    public run(): void {
+        setInterval(async () => {
+            new ChatMessageEvent(-1, Colors.WHITE, Messages.BROADCAST[this.index]);
+            this.index++;
+        }, this.delay * 1000);
     }
 }
-
-const client: Client = new Client();

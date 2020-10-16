@@ -19,34 +19,15 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+export abstract class BaseEvent {
 
-export class Client {
+    protected readonly user: number;
 
-    public static instance: Client;
+    protected constructor(user: number) {
+        this.user = user;
 
-    private readonly character: Character;
-
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+        this.event();
     }
-}
 
-const client: Client = new Client();
+    protected abstract event();
+}

@@ -28,7 +28,7 @@ export class PlayerDroppedEvent extends PlayerEvent {
     private readonly reason: string;
 
     constructor(source: number, reason: string) {
-        super(source, GameData.findUser(source).steamName);
+        super(source);
 
         this.reason = reason;
     }

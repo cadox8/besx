@@ -19,34 +19,20 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
+import {BaseEvent} from "./BaseEvent";
+import {GameData} from "../../api/GameData";
 
-export class Client {
+export class UpdateUserEvent extends BaseEvent {
 
-    public static instance: Client;
+    constructor(target: number = -1) {
+        super(target);
+    }
 
-    private readonly character: Character;
-
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+    protected event() {
+        if (this.target === -1) {
+            GameData.instance.users.forEach(u => TriggerClientEvent('besx:user', u.internal_id, u));
+        } else{
+            TriggerClientEvent('besx:user', this.target, GameData.findUser(this.target));
+        }
     }
 }
-
-const client: Client = new Client();

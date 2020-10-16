@@ -19,34 +19,39 @@
  * THE SOFTWARE.
  */
 
-import {EventHandler} from "./events/EventHandler";
-import {User} from "../commons/api/user/User";
-import {Item} from "../commons/api/Item";
-import {Character} from "./data/Character";
-import {Input} from "./utils/Input";
-
-export class Client {
-
-    public static instance: Client;
-
-    private readonly character: Character;
-
-    public user: User = null;
-    public items: Item[] = [];
-
-    constructor() {
-        Client.instance = this;
-
-        console.error('---------------- BESX ----------------');
-        console.log('Loading everything...');
-
-        this.character = new Character();
-        new EventHandler().handle();
-        new Input();
-
-        console.log('Loaded!');
-        console.error('---------------- BESX ----------------');
+export const client = {
+    keys: {
+        inventory: 289
     }
 }
 
-const client: Client = new Client();
+export const server = {
+    mysql: {
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: ""
+    },
+    moderation: {
+        kickBroadcast: true,
+        banBroadcast: true,
+        avoidRanks: false // Do not set this to true unless you want that, for example, a mod can kick an admin
+    }
+}
+
+export const commons = {
+    debug: true,
+    updaterLog: true,
+    modules: {
+        money: true,
+        characters: true,
+        voice: true,
+        phone: true,
+        animations: true,
+        models: true,
+        police: true,
+        ems: true,
+        mechanic: true,
+        supermarket: true
+    }
+}

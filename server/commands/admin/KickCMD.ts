@@ -21,8 +21,10 @@
 
 import {BaseCommand, CommandType} from "../BaseCommand";
 import {Rank, User} from "../../../commons/api/user/User";
-import {PlayerKickEvent} from "../../events/sender/PlayerKickEvent";
 import {UserManager} from "../../db/UserManager";
+import {ChatMessageEvent} from "../../events/sender/ChatMessageEvent";
+import {Colors} from "../../../commons/utils/Colors";
+import {Server} from "../../Server";
 
 export class KickCMD extends BaseCommand {
 
@@ -46,14 +48,18 @@ export class KickCMD extends BaseCommand {
             }
             const target: User = this.getUser(Number(args[0]));
             args.splice(0, 1);
-            const reason: string = args.length > 1 ? args.join(' ') : 'You have been kicked from the server without any reason';
 
-            if (target.rank >= who.rank) {
-
+            if (target.rank >= who.rank && Server.config.moderation.avoidRanks) {
+                new ChatMessageEvent(who.internal_id, Colors.RED, 'You are the same or lower rank that the target and you can not kick him');
                 return;
             }
-            const saved: boolean = await UserManager.saveUser(who);
+            const reason: string = args.length > 1 ? args.join(' ') : 'You have been kicked from the server without any reason';
+
+            if (!await UserManager.saveUser(target)) UserManager.saveUser(target);
+
+
             DropPlayer(String(target.internal_id), reason);
+            new ChatMessageEvent(-1, Colors.WHITE, `The user ${target.steamName} has been kicked from server. Reason: ${reason}`)
         }, false);
     }
 }

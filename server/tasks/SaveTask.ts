@@ -24,7 +24,7 @@ import {Server} from "../Server";
 import {PayDayEvent} from "../events/sender/PayDayEvent";
 import {UserManager} from "../db/UserManager";
 
-export class JobTask {
+export class SaveTask {
 
     private readonly delay: number; // Seconds
 
