@@ -35,9 +35,10 @@ export class PlayerUseItemEvent extends PlayerEvent {
     }
 
     protected event(): void {
+        if (!this.item.usable) return;
         this.emitter.inventory.remove(new InventoryItem(this.item, 1));
 
-        this.item.callback;
+        this.item.callback();
 
         GameData.updateUser(this.emitter);
         new UpdateUserEvent(this.source);

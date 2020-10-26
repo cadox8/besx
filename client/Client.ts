@@ -24,8 +24,11 @@ import {User} from "../commons/api/user/User";
 import {Item} from "../commons/api/Item";
 import {Character} from "./data/Character";
 import {Input} from "./utils/Input";
+import {IClientConfig} from "./utils/IClientConfig";
 
 export class Client {
+
+    public static config: IClientConfig;
 
     public static instance: Client;
 
@@ -39,6 +42,9 @@ export class Client {
 
         console.error('---------------- BESX ----------------');
         console.log('Loading everything...');
+
+        Client.config = require('../besx.config.js').client;
+        Client.config.commons = require('../besx.config.js').commons;
 
         this.character = new Character();
         new EventHandler().handle();

@@ -8,12 +8,14 @@ export class InventoryMenu {
 
     private readonly point: Point;
 
+    public savedMenu: Menu;
+
     constructor(point?: Point) {
         this.point = point;
         this.user = Client.instance.user;
     }
 
-    public open(): Menu {
+    public open(): void {
         const menu: Menu = new Menu('Inventory', '', this.point);
 
         // Load Items
@@ -34,6 +36,6 @@ export class InventoryMenu {
         });
 
         menu.open();
-        return menu;
+        this.savedMenu = menu;
     }
 }

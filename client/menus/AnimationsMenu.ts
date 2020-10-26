@@ -19,42 +19,33 @@
  * THE SOFTWARE.
  */
 
-export class Item {
+import {Client} from "../Client";
+import {Menu, Point, UIMenuItem} from "fivem-js";
+import {Animations} from "../../commons/utils/Animations";
 
-    public readonly id: number;
-    public readonly name: string;
-    public readonly displayName: string;
-    public readonly weight: number;
-    public usable: boolean;
+export class AnimationsMenu {
 
-    public callback?: () => void;
+    private readonly point: Point;
 
-    constructor(id: number, name: string, displayName: string, weight: number = 0.0) {
-        this.id = id;
-        this.name = name;
-        this.displayName = displayName;
-        this.weight = weight;
-        this.usable = false;
+    public savedMenu: Menu;
+
+    constructor(point?: Point) {
+        this.point = point;
     }
 
-    public json(): string {
-        return JSON.stringify(this);
-    }
-}
+    public open(): void {
+        const menu: Menu = new Menu('Inventory', '', this.point);
+        const expressions: Menu = new Menu('Expressions', '', this.point);
 
-export class InventoryItem {
+        // Expressions
+        const expressionsItem: UIMenuItem = new UIMenuItem('Expressions');
+        menu.addItem(expressionsItem);
+        menu.bindMenuToItem(expressions, expressionsItem);
+        Animations.EXPRESSIONS.forEach(a => expressions.addItem(new UIMenuItem(a.name)));
 
-    public readonly item: Item;
-    public amount: number;
-    public maxStack: number;
+        // Walks
 
-    constructor(item: Item, amount: number = 1, maxStack: number = 50) {
-        this.item = item;
-        this.amount = amount;
-        this.maxStack = maxStack;
-    }
-
-    public json(): string {
-        return JSON.stringify(this);
+        menu.open();
+        this.savedMenu = menu;
     }
 }

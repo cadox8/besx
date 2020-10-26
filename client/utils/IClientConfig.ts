@@ -24,6 +24,7 @@ import {ICommonsConfig} from "../../commons/data/ICommonsConfig";
 export interface IClientConfig {
     commons: ICommonsConfig,
     keys: {
-        inventory: number
+        inventory: number,
+        animations: number
     }
 }
