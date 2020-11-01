@@ -21,7 +21,8 @@
 
 export const client = {
     keys: {
-        inventory: 289
+        inventory: 289,
+        animations: 170
     }
 }
 

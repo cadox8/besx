@@ -21,28 +21,45 @@
 
 import {InventoryMenu} from "../menus/InventoryMenu";
 import {Menu} from "fivem-js";
+import {AnimationsMenu} from "../menus/AnimationsMenu";
+import {Client} from "../Client";
 
 export class Input {
 
     private invOpened: boolean = false;
 
-    private inventoryMenu: Menu;
+    private inventoryMenu: InventoryMenu;
+    private animationsMenu: AnimationsMenu;
 
     constructor() {
         setInterval(() => this.checkKeys(), 500);
+
+        this.inventoryMenu = new InventoryMenu();
+        this.animationsMenu = new AnimationsMenu();
     }
 
     private checkKeys(): void {
         // Inventory
-        if (IsControlPressed(0, 289)) {
-            if (this.invOpened) {
-                this.invOpened = false;
-                this.inventoryMenu.close();
-                this.inventoryMenu = null;
-                return;
-            }
+        if (IsControlPressed(0, Client.config.keys.inventory)) {
+            this.closeAllInventories();
             this.invOpened = true;
-            this.inventoryMenu = new InventoryMenu().open();
+            this.inventoryMenu.open();
         }
+
+        // Animations
+        if (IsControlPressed(0, Client.config.keys.animations)) {
+            this.closeAllInventories();
+            this.invOpened = true;
+            this.animationsMenu.open();
+        }
+    }
+
+    private closeAllInventories(): void {
+        if (!this.invOpened) return;
+
+        if (this.inventoryMenu.savedMenu !== null) this.inventoryMenu.savedMenu.close();
+        if (this.animationsMenu.savedMenu !== null) this.animationsMenu.savedMenu.close();
+
+        this.invOpened = false;
     }
 }

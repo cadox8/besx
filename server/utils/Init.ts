@@ -60,7 +60,7 @@ export class Init {
             const tempItems: Item[] = [];
             Database.database.query("select * from items", (err, result) => {
                 const itemsData: any = Utils.JSON(result);
-                itemsData.forEach(i => tempItems.push(new Item(i.id, i.name, i.displayName, i.weight, Boolean(i.usable))));
+                itemsData.forEach(i => tempItems.push(new Item(i.id, i.name, i.displayName, i.weight)));
             });
             items(tempItems);
         });

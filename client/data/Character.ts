@@ -33,6 +33,8 @@ export class Character {
         this.defaultCharacter = { male: 'mp_m_execpa_01', female: 'mp_f_execpa_02' };
     }
 
+    // ToDo: Change to Commons?
+
     // Skinchanger
     private loadData(): IData[] {
         const ped: number = Cfx.Player.prototype.Handle;
@@ -131,9 +133,11 @@ export class Character {
         SetPedHeadBlendData(ped, this.find(data, 'face'), this.find(data, 'face'), this.find(data, 'face'), this.find(data, 'skin'), this.find(data, 'skin'), this.find(data, 'skin'), 1.0, 1.0, 1.0, true);
 
         SetPedHairColor(ped, this.find(data, 'hair_color_1'), this.find(data, 'hair_color_2'));
-        SetPedHeadOverlay(ped, 3, this.find(data, 'age_1'), this.find(data, 'age_2') / 10 + 0.0);
-        SetPedHeadOverlay(ped, 0, this.find(data, 'blemishes_1'), this.find(data, 'blemishes_2') / 10 + 0.0);
+        SetPedHeadOverlay(ped, 3, this.find(data, 'age_1'), this.find(data, 'age_2') / 10);
+        SetPedHeadOverlay(ped, 0, this.find(data, 'blemishes_1'), this.find(data, 'blemishes_2') / 10);
+        SetPedHeadOverlay(ped, 1, this.find(data, 'beard_1'), this.find(data, 'beard_2') / 10);
 
+        SetPedEyeColor(ped, this.find(data, 'eye_color'));
     }
 }
 

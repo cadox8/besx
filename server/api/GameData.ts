@@ -50,6 +50,18 @@ export class GameData {
         GameData.instance.items.push(item);
         new UpdateItemsEvent();
     }
+    static findItem(id: number): Item {
+        return GameData.instance.items.find(u => u.id === id);
+    }
+    static findItemByName(name: string): Item {
+        return GameData.instance.items.find(u => u.name === name);
+    }
+    static updateItem(item: Item): void {
+        GameData.instance.items[this.indexItem(item)] = item;
+    }
+    private static indexItem(item: Item): number {
+        return GameData.instance.items.indexOf(item);
+    }
 
     static nextId(): number {
         GameData.instance.internal_id_counter++;

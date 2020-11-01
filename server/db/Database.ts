@@ -54,13 +54,17 @@ export class Database {
 
     public static addNewItem(item: Item): Promise<boolean> {
         return new Promise<boolean>(success => {
+            if (GameData.instance.items.includes(item)) {
+                success(false);
+                return;
+            }
             Database.database.query("insert into items(name, displayName, weight) values ('" + item.name + "', '" + item.displayName + "', '" + item.weight + "')", (err, result) => {
                 if (!err) {
                     GameData.addItem(item);
                     new UpdateItemsEvent();
                 }
                 success(!err);
-            })
+            });
         });
     }
 }

@@ -19,9 +19,46 @@
  * THE SOFTWARE.
  */
 
+import {Item} from "../../commons/api/Item";
+import {Database} from "../db/Database";
+import {GameData} from "./GameData";
+import {UpdateItemsEvent} from "../events/sender/UpdateItemsEvent";
+
 export class BESX {
 
-    public static RegisterUsableItem(item: string, callback: void): void {
+    /**
+     * Register a new usable Item (not saved in database)
+     * This will save the item in the database the first time and then adds the callback to the Item
+     *
+     *
+     * @param item The item to register
+     * @param callback The callback to be executed
+     * @see Item
+     */
+    public static async registerUsableItem(item: Item, callback: () => void): Promise<boolean> {
+        item.usable = true;
+        item.callback = callback;
+        const added: boolean = await Database.addNewItem(item);
+        GameData.updateItem(item);
+        new UpdateItemsEvent();
+        return added;
+    }
 
+    /**
+     * Register a new usable Item previously saved on Database (if you entered it manually)
+     *
+     *
+     * @param itemName The item name from the registered Item (column `name` on Database)
+     * @param callback The callback to be executed
+     * @see Item
+     */
+    public static async registerUsableItemByName(itemName: string, callback: () => void): Promise<boolean> {
+        const item: Item = GameData.findItemByName(itemName);
+        item.usable = true;
+        item.callback = callback;
+        const added: boolean = await Database.addNewItem(item);
+        GameData.updateItem(item);
+        new UpdateItemsEvent();
+        return added;
     }
 }

@@ -19,42 +19,11 @@
  * THE SOFTWARE.
  */
 
-export class Item {
+export class Animations {
 
-    public readonly id: number;
-    public readonly name: string;
-    public readonly displayName: string;
-    public readonly weight: number;
-    public usable: boolean;
-
-    public callback?: () => void;
-
-    constructor(id: number, name: string, displayName: string, weight: number = 0.0) {
-        this.id = id;
-        this.name = name;
-        this.displayName = displayName;
-        this.weight = weight;
-        this.usable = false;
-    }
-
-    public json(): string {
-        return JSON.stringify(this);
-    }
-}
-
-export class InventoryItem {
-
-    public readonly item: Item;
-    public amount: number;
-    public maxStack: number;
-
-    constructor(item: Item, amount: number = 1, maxStack: number = 50) {
-        this.item = item;
-        this.amount = amount;
-        this.maxStack = maxStack;
-    }
-
-    public json(): string {
-        return JSON.stringify(this);
-    }
+    public static EXPRESSIONS: { name: string, animation: string }[] = [
+        { name: 'Angry', animation: 'mood_angry_1' },
+        { name: 'Drunk', animation: 'mood_drunk_1' },
+        { name: 'Dumb', animation: 'pose_injured_1' }
+    ]
 }

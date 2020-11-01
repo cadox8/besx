@@ -34,6 +34,7 @@ export class User {
     public steamName: string = '';
     public steam: string = '';
     public discord: string = '';
+    public rockstar: string = '';
 
     // RP
     public money: number = 0;
@@ -43,8 +44,8 @@ export class User {
     public death: boolean = false;
 
     // Data
-    public stats: Stats = new Stats();
-    public inventory: Inventory = new Inventory(25 + (this.stats.weight * 0.2));
+    public stats: Stats;
+    public inventory: Inventory;
 
     // Work
     // ToDo: Can be done better... In a near future
@@ -64,6 +65,9 @@ export class User {
     constructor(internal_id: number, db_id: number) {
         this.internal_id = internal_id;
         this.db_id = db_id;
+
+        this.stats = new Stats();
+        this.inventory = new Inventory(25 + (this.stats.weight * 0.2));
     }
 
     //

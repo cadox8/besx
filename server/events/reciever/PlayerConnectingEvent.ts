@@ -45,7 +45,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
         setTimeout(async () => {
             this.deferrals.update(`Hello ${this.name}. Your steam ID is being checked.`);
             Log.debug(`Hello ${this.name}. Your steam ID is being checked.`);
-            let data: { steam?: string, discord?: string, steamName: string } = { steamName: '' };
+            let data: { steam?: string, discord?: string, steamName: string, license?: string } = { steamName: '' };
 
             for (let i = 0; i < GetNumPlayerIdentifiers(player); i++) {
                 const identifier = GetPlayerIdentifier(player, i);
@@ -53,6 +53,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
                 data.steamName = GetPlayerIdentifier(player, 1);
                 if (identifier.includes('steam:')) data.steam = identifier;
                 if (identifier.includes('discord:')) data.discord = identifier;
+                if (identifier.includes('license:')) data.license = identifier;
             }
 
             // pretend to be a wait
@@ -61,7 +62,7 @@ export class PlayerConnectingEvent extends PlayerEvent {
                     this.deferrals.done("You are not connected to Steam or Discord.");
                 } else {
                     this.deferrals.done();
-                    const user: { user: User, exists: boolean } = await UserManager.getUser(GameData.nextId(), data.steam, data.discord);
+                    const user: { user: User, exists: boolean } = await UserManager.getUser(GameData.nextId(), data.steam, data.discord, data.license);
                     user.user.steamName = data.steamName;
                     GameData.addUser(user.user);
                     new CreateUserEvent(this.source, user.user, user.exists);
