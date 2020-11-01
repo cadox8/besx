@@ -14,4 +14,4 @@
 - [Github](https://github.com/cadox8/besx)
 - [Report an Issue](https://github.com/cadox8/besx/issues)
 - [Donate](https://patreon.com/cadox8)  
-- Version: 0.2.4
+- Version: 0.2.5
