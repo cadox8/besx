@@ -26,6 +26,7 @@ use besx;
 create table if not exists userdata (
     id              INTEGER(255) UNSIGNED NOT NULL AUTO_INCREMENT,
     steam           VARCHAR(255) NOT NULL,
+    rockstar        VARCHAR(255) NOT NULL,
     discord         VARCHAR(255) NOT NULL,
 
     money           DOUBLE(255, 2) NOT NULL DEFAULT 0,
@@ -36,7 +37,8 @@ create table if not exists userdata (
     employer        integer(3) not null default 0,
 
     `rank`          INTEGER(3) NOT NULL DEFAULT 0,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    unique key (rockstar)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 create table if not exists inventory (

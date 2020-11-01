@@ -28,32 +28,33 @@ import {InventoryItem, Item} from "../../commons/api/Item";
 
 export class UserManager {
 
-    public static getUser(internal_id: number, steam: string, discord: string): Promise<{ user: User, exists: boolean }> {
+    public static getUser(internal_id: number, steam: string, discord: string, rockstar: string): Promise<{ user: User, exists: boolean }> {
         return new Promise(async user => {
             const exists: boolean = await this.existUser(steam, discord);
-            const result: { user: User, exists: boolean } = { user: exists ? await this.loadUser(internal_id, steam, discord) : await this.generateUser(internal_id, steam, discord), exists: exists }
+            const result: { user: User, exists: boolean } = { user: exists ? await this.loadUser(internal_id, steam, discord, rockstar) : await this.generateUser(internal_id, steam, discord, rockstar), exists: exists }
             user(result);
         });
     }
 
-    public static async generateUser(internal_id: number, steam: string, discord: string): Promise<User> {
+    public static async generateUser(internal_id: number, steam: string, discord: string, rockstar: string): Promise<User> {
         return new Promise(async user => {
-            Database.database.query("insert into userdata (steam, discord) VALUES ('" + steam + "', '" + discord + "')", async (err, result) => {
+            Database.database.query("insert into userdata (steam, discord, rockstar) VALUES ('" + steam + "', '" + discord + "', '" + rockstar + "')", async (err, result) => {
                if (err) user(null);
             });
-            user(await this.loadUser(internal_id, steam, discord));
+            user(await this.loadUser(internal_id, steam, discord, rockstar));
         });
     }
 
-    public static async loadUser(internal_id: number, steam: string, discord: string): Promise<User> {
+    public static async loadUser(internal_id: number, steam: string, discord: string, rockstar: string): Promise<User> {
         return new Promise(user => {
-            Database.database.query("select * from userdata WHERE steam='" + steam + "' and discord='" + discord + "'", (err, result) => {
+            Database.database.query("select * from userdata WHERE steam='" + steam + "' and discord='" + discord + "' and rockstar='" + rockstar + "'", (err, result) => {
                 if (err) user(null);
                 const data: any = Utils.JSON(result)[0];
                 const tempUser: User = new User(internal_id, data.id);
 
                 tempUser.steam = steam;
                 tempUser.discord = discord;
+                tempUser.rockstar = rockstar;
 
                 tempUser.money = data.money;
                 tempUser.bank = data.bank;
@@ -76,7 +77,7 @@ export class UserManager {
                         if (!inv_error) {
                             const items: any = Utils.JSON(Utils.JSON(invData)[0]);
                             items.items.forEach(i => {
-                                const item: Item = new Item(i.item.id, i.item.name, i.item.displayName, i.item.weight, Boolean(i.item.usable));
+                                const item: Item = new Item(i.item.id, i.item.name, i.item.displayName, i.item.weight);
                                 tempUser.inventory.add(new InventoryItem(item, i.amount))
                             })
                         }

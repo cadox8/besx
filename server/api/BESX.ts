@@ -35,12 +35,13 @@ export class BESX {
      * @param callback The callback to be executed
      * @see Item
      */
-    public static registerUsableItem(item: Item, callback: () => void): void {
+    public static async registerUsableItem(item: Item, callback: () => void): Promise<boolean> {
         item.usable = true;
         item.callback = callback;
-        Database.addNewItem(item);
+        const added: boolean = await Database.addNewItem(item);
         GameData.updateItem(item);
         new UpdateItemsEvent();
+        return added;
     }
 
     /**
@@ -51,12 +52,13 @@ export class BESX {
      * @param callback The callback to be executed
      * @see Item
      */
-    public static registerUsableItemByName(itemName: string, callback: () => void): void {
+    public static async registerUsableItemByName(itemName: string, callback: () => void): Promise<boolean> {
         const item: Item = GameData.findItemByName(itemName);
         item.usable = true;
         item.callback = callback;
-        Database.addNewItem(item);
+        const added: boolean = await Database.addNewItem(item);
         GameData.updateItem(item);
         new UpdateItemsEvent();
+        return added;
     }
 }
