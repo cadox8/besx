@@ -3,6 +3,10 @@
 ### Introduction
 **BESX** is a RolePlay Framework for FiveM servers developed in TypeScript.
 
+### Notice
+This script is being rewritten to support latest features.
+Check [v1 branch](https://github.com/cadox8/besx/tree/v1) to see all the features.
+
 ### Table Of Content
 - [Installation](#installation)
 - [Developing](#developing)
